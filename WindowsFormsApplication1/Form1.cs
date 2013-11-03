@@ -23,7 +23,7 @@ namespace WindowsFormsApplication1
 
         private void button1_Click(object sender, EventArgs e)
         {
-            Bitmap bit = (Bitmap)Bitmap.FromFile("E:\\WIN_20131026_231434.JPG");
+            Bitmap bit = (Bitmap)Bitmap.FromFile("E:\\source.JPG");
             lbl_timespan.Text = "Process Time:" + EdgeOptimize(bit, (int)nud_offset.Value).ToString();
             bit.Save("E:\\refined.bmp");
         }
@@ -51,9 +51,10 @@ namespace WindowsFormsApplication1
             Color c;
             ignore++;
             DateTime start_time = DateTime.Now;
-            for (int x = 0; x <= b.Size.Width; x+=ignore)
+            int picWidth = b.Size.Width, picHeight = b.Size.Height;
+            for (int x = 0; x <= picWidth; x+=ignore)
             {
-                for (int y = 0; y <= b.Size.Height; y+=ignore)
+                for (int y = 0; y <= picHeight; y+=ignore)
                 {
                     c = b.GetPixel(x, y);
                     string hex = c.R.ToString("X2") + c.G.ToString("X2") + c.B.ToString("X2");
@@ -66,9 +67,9 @@ namespace WindowsFormsApplication1
                     {
                         c = Color.FromArgb(255, 255, 255);
                     }
-                    for (int tX = x; tX < x + ignore; tX++)
+                    for (int tX = x; tX < x + ignore && tX < picWidth; tX++)
                     {
-                        for (int tY = y; tY < y + ignore; tY++) {
+                        for (int tY = y; tY < y + ignore && tY < picHeight; tY++) {
                             b.SetPixel(tX, tY, c);
                         }
                     }
